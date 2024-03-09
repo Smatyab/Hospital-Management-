@@ -6,12 +6,12 @@ import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hophseeflutter/core/utils.dart';
 import 'package:hophseeflutter/data/module/user_model.dart';
 import 'package:hophseeflutter/ui/doctorpannel/appo_item_card.dart';
+
 import '../../core/constant.dart';
 import '../../core/share_preference.dart';
-import '../../core/widget/custome_app_bar.dart';
 import '../../data/datasource/api_services.dart';
 import '../../data/module/appo_model.dart';
-import '../../data/module/doctor_model.dart';
+import '../dashboard/location_selection.dart';
 
 class DoctorDashboardScreen extends StatefulWidget {
   static const route = '/doctor_dashboard_screen';
@@ -88,7 +88,8 @@ class _DoctorDashboardScreenState extends State<DoctorDashboardScreen> {
         body: Column(
           crossAxisAlignment: CrossAxisAlignment.center,
           children: [
-            const CustomAppBar(backBtn: false),
+            //const CustomAppBar(backBtn: false),
+            LocationSelectionScreen(),
             Expanded(
               child: StreamBuilder<Map<String, dynamic>?>(
                 stream: stream, // Access the custom stream

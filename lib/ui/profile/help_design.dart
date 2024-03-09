@@ -103,7 +103,7 @@ class HelpMePage extends StatelessWidget {
                       );
                     },
                     style: ElevatedButton.styleFrom(
-                      primary: Color(0xFF3AA7FF),
+                      backgroundColor: Color(0xFF3AA7FF),
                       shape: RoundedRectangleBorder(
                         borderRadius: BorderRadius.circular(20.w),
                       ),

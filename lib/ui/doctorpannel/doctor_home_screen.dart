@@ -1,9 +1,6 @@
-import 'package:curved_navigation_bar/curved_navigation_bar.dart';
-import 'package:flutter/material.dart';
-import 'package:hophseeflutter/ui/appointment/appointment_list_screen.dart';
+import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:hophseeflutter/ui/doctorpannel/doctor_dashboard.dart';
-import '../appointment/appointment_book_screen.dart';
-import '../doctordetails/doctor_list_screen.dart';
+
 import '../profile/profile_design.dart';
 
 class DoctorHomeScreen extends StatefulWidget {
@@ -15,7 +12,7 @@ class DoctorHomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<DoctorHomeScreen> {
-  final items = const [
+  /*final items = const [
     Icon(
       Icons.home_outlined,
       size: 30,
@@ -24,45 +21,95 @@ class _HomeState extends State<DoctorHomeScreen> {
       Icons.person_outline,
       size: 30,
     )
+  ];*/
+
+  final List<Widget> screens = [
+    DoctorDashboardScreen(),
+    const ProfileDesign(isNotBackArrow: false),
   ];
 
-  int index = 0;
+  int selectedIndex = 0;
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: Colors.transparent,
-      body: getSelectedWidget(index: index),
-      bottomNavigationBar: CurvedNavigationBar(
-        items: items,
-        index: index,
-        onTap: (selectedIdx) {
-          setState(() {
-            index = selectedIdx;
-          });
-        },
-        height: 60,
-        color: Colors.lightBlueAccent,
-        // Set the color to blue
-        backgroundColor: Colors.white,
-        animationDuration: const Duration(milliseconds: 300),
+      body: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+            begin: Alignment.topLeft,
+            end: Alignment.bottomRight,
+            colors: [Colors.white, Colors.white],
+          ),
+        ),
+        child: Neumorphic(
+          style: NeumorphicStyle(
+            depth: -8,
+            intensity: 0.7,
+            color: Colors.transparent,
+            boxShape: NeumorphicBoxShape.roundRect(
+              BorderRadius.only(
+                topLeft: Radius.circular(24),
+                topRight: Radius.circular(24),
+              ),
+            ),
+          ),
+          child: screens[selectedIndex],
+        ),
+      ),
+      bottomNavigationBar: Container(
+        decoration: BoxDecoration(
+          gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [Colors.white, Colors.white]),
+        ),
+        child: Neumorphic(
+          style: NeumorphicStyle(
+            depth: 8,
+            intensity: 0.7,
+            color: Colors.transparent,
+            boxShape: NeumorphicBoxShape.roundRect(
+              BorderRadius.circular(24),
+            ),
+          ),
+          child: Container(
+            padding: EdgeInsets.only(left: 10, top: 10, bottom: 10, right: 10),
+            child: Row(
+              mainAxisAlignment: MainAxisAlignment.spaceAround,
+              children: List.generate(
+                screens.length,
+                (index) => NeumorphicButton(
+                  onPressed: () {
+                    setState(() {
+                      selectedIndex = index;
+                    });
+                  },
+                  style: NeumorphicStyle(
+                    shape: NeumorphicShape.flat,
+                    boxShape: NeumorphicBoxShape.roundRect(
+                      BorderRadius.circular(12),
+                    ),
+                    depth: 4,
+                    intensity: 0.5,
+                    lightSource: LightSource.topLeft,
+                    color: selectedIndex == index
+                        ? Colors.lightBlueAccent.shade400
+                        : Colors.transparent,
+                  ),
+                  padding: EdgeInsets.all(12),
+                  child: Icon(
+                    index == 0 ? Icons.home_outlined : Icons.person_outline,
+                    size: 24,
+                    color: selectedIndex == index
+                        ? Colors.white
+                        : Colors.grey[800],
+                  ),
+                ),
+              ),
+            ),
+          ),
+        ),
       ),
     );
-  }
-
-  Widget getSelectedWidget({required int index}) {
-    Widget widget;
-    switch (index) {
-      case 0:
-        widget = DoctorDashboardScreen();
-        break;
-      case 1:
-        widget = ProfileDesign(isNotBackArrow: false);
-        break;
-      default:
-        widget = DoctorDashboardScreen();
-        break;
-    }
-    return widget;
   }
 }

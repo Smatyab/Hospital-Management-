@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/constant.dart';
 
@@ -6,7 +7,10 @@ class AppoItemCard extends StatelessWidget {
   const AppoItemCard({
     Key? key,
     required this.name,
-    required this.imagePath, required this.date, required this.time, required this.email,
+    required this.imagePath,
+    required this.date,
+    required this.time,
+    required this.email,
   }) : super(key: key);
 
   final String name;
@@ -18,17 +22,16 @@ class AppoItemCard extends StatelessWidget {
   @override
   Widget build(BuildContext context) {
     return Container(
-      width: double.infinity,
-      height: 150,
-      margin: const EdgeInsets.symmetric(horizontal: 15, vertical: 10),
+      margin: EdgeInsets.symmetric(vertical: 15.h, horizontal: 20.w),
+      padding: EdgeInsets.all(20.w),
       decoration: BoxDecoration(
         color: Colors.white,
-        borderRadius: BorderRadius.circular(12),
+        borderRadius: BorderRadius.circular(20),
         boxShadow: [
           BoxShadow(
             color: Colors.grey.withOpacity(0.5),
             spreadRadius: 2,
-            blurRadius: 5,
+            blurRadius: 10,
             offset: const Offset(0, 3),
           ),
         ],
@@ -36,21 +39,16 @@ class AppoItemCard extends StatelessWidget {
       child: Row(
         crossAxisAlignment: CrossAxisAlignment.center,
         children: [
-          Padding(
-            padding: const EdgeInsets.all(16),
-            child: Container(
-              width: 90,
-              height: 90,
-              decoration: BoxDecoration(
-                borderRadius: BorderRadius.circular(15),
-                shape: BoxShape.rectangle,
-                image: DecorationImage(
-                  image: NetworkImage("$host/$imagePath"),
-                  fit: BoxFit.cover,
-                ),
-              ),
+          ClipRRect(
+            borderRadius: BorderRadius.circular(20),
+            child: Image.network(
+              "$host/$imagePath",
+              height: 150.h,
+              width: 90.w,
+              fit: BoxFit.cover,
             ),
           ),
+          SizedBox(width: 20.w),
           Expanded(
             child: Column(
               crossAxisAlignment: CrossAxisAlignment.start,
@@ -58,41 +56,33 @@ class AppoItemCard extends StatelessWidget {
               children: [
                 Text(
                   "Name : $name",
-                  style: const TextStyle(
-                    fontSize: 18,
+                  style: TextStyle(
+                    fontSize: 20.sp,
                     fontWeight: FontWeight.bold,
                   ),
                 ),
+                SizedBox(height: 10.h),
                 Text(
                   'Date: $date',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey, // Customize the text color
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Colors.black87,
                   ),
                 ),
                 Text(
                   'Time: $time',
-                  style: const TextStyle(
-                    fontSize: 16,
-                    color: Colors.grey, // Customize the text color
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Colors.black87,
                   ),
                 ),
-                Row(
-                  children: [
-                    Text(
-                      "Email : $email",
-                      style: const TextStyle(
-                        fontSize: 14,
-                        color: Colors.grey,
-                      ),
-                    ),
-                   /* Text(
-                      age,
-                      style: const TextStyle(
-                        fontSize: 14,
-                      ),
-                    ),*/
-                  ],
+                SizedBox(height: 10.h),
+                Text(
+                  "Email : $email",
+                  style: TextStyle(
+                    fontSize: 16.sp,
+                    color: Colors.black87,
+                  ),
                 ),
               ],
             ),

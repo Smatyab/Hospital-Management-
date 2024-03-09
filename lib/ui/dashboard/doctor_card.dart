@@ -2,7 +2,6 @@ import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
 import '../../core/constant.dart';
-import '../appointment/appo_book_screen.dart';
 
 class DoctorCard extends StatelessWidget {
   DoctorCard({
@@ -120,7 +119,7 @@ class DoctorCard extends StatelessWidget {
                 ElevatedButton(
                   onPressed: onTapDetails,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.lightBlueAccent.shade200,
+                    backgroundColor: Colors.lightBlueAccent.shade200,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),
@@ -140,7 +139,7 @@ class DoctorCard extends StatelessWidget {
                 ElevatedButton(
                   onPressed: onTapAppo,
                   style: ElevatedButton.styleFrom(
-                    primary: Colors.lightBlueAccent.shade200,
+                    backgroundColor: Colors.lightBlueAccent.shade200,
                     shape: RoundedRectangleBorder(
                       borderRadius: BorderRadius.circular(15),
                     ),

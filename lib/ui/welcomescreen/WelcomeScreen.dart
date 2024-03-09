@@ -1,7 +1,6 @@
-import 'package:flutter/cupertino.dart';
 import 'package:flutter/material.dart';
-import 'package:google_fonts/google_fonts.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'package:hophseeflutter/ui/welcomescreen/PageConfig.dart';
 
 import '../home/login_screen.dart';
@@ -176,8 +175,8 @@ class WelcomeScreenContent extends StatelessWidget {
                 }
               },
               style: ElevatedButton.styleFrom(
-                primary: Colors.blueAccent.shade200,
-                onPrimary: Color(0xFF00F260),
+                foregroundColor: Color(0xFF00F260),
+                backgroundColor: Colors.blueAccent.shade200,
                 shape: RoundedRectangleBorder(
                   borderRadius: BorderRadius.circular(36.0),
                 ),

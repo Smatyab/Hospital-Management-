@@ -78,6 +78,7 @@ class _AppointmentListScreenState extends State<AppointmentListScreen> {
           child: Column(
             children: [
               CustomAppbar2(
+                backBtn: false,
                 label: 'My Appointments',
               ),
               AppointmentScheduler(),

@@ -1,8 +1,8 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:intl/intl.dart';
+
 import '../../core/widget/custome_app_bar.dart';
 import '../../data/module/doctor_model.dart';
 import '../../data/module/payment_page_required.dart';
@@ -24,15 +24,15 @@ class AppointmentBookScreen2 extends StatefulWidget {
 }
 
 class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
-  DateTime selectedDate = DateTime.now();
-  TimeOfDay selectedTime = TimeOfDay.now();
+  DateTime? selectedDate;
+  TimeOfDay? selectedTime = TimeOfDay.now();
   TextEditingController dateTimeController = TextEditingController();
 
   Future<void> _selectDateTime(BuildContext context) async {
     DateTime currentDate = DateTime.now();
     DateTime? pickedDate = await showDatePicker(
       context: context,
-      initialDate: selectedDate,
+      initialDate: selectedDate ?? currentDate,
       firstDate: currentDate,
       lastDate: currentDate.add(Duration(days: 30)),
     );
@@ -40,7 +40,7 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
     if (pickedDate != null) {
       TimeOfDay? pickedTime = await showTimePicker(
         context: context,
-        initialTime: selectedTime,
+        initialTime: selectedTime ?? TimeOfDay.now(),
         builder: (BuildContext context, Widget? child) {
           return MediaQuery(
             data: MediaQuery.of(context).copyWith(alwaysUse24HourFormat: false),
@@ -68,7 +68,7 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
             selectedDate = pickedDate;
             selectedTime = pickedTime!;
             dateTimeController.text =
-                '${DateFormat('dd-MM-yyyy').format(selectedDate)} ${selectedTime.format(context)}';
+            '${DateFormat('dd-MM-yyyy').format(selectedDate!)} ${selectedTime!.format(context)}';
           });
         } else {
           // Show an error message or handle the invalid time selection
@@ -118,7 +118,8 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
               children: [
                 Column(
                   children: [
-                    CustomAppbar2(label: 'Book your Appointment'),
+                    CustomAppbar2(
+                        backBtn: false, label: 'Book your Appointment'),
                     Divider(),
                     DoctorCard(
                       name: widget.doctor.doctorName ?? "",
@@ -190,20 +191,30 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
                   child: NeumorphicButton(
                     onPressed: selectedDate != null && selectedTime != null
                         ? () {
-                            int? doctorId = widget.doctor.doctorId;
-                            String appoDt = DateFormat('yyyy-MM-dd')
-                                .format(selectedDate); // Format the date
-                            String appoTime =
-                                selectedTime.format(context); // Format the time
-                            Navigator.pushNamed(context, PaymentDesign.route,
-                                arguments: PaymentPageRequired(
-                                    doctorId: doctorId,
-                                    appoDt: appoDt,
-                                    appoTime: appoTime));
-                          }
+                      int? doctorId = widget.doctor.doctorId;
+                      String appoDt = DateFormat('yyyy-MM-dd')
+                          .format(selectedDate!); // Format the date
+                      String appoTime = selectedTime!
+                          .format(context); // Format the time
+                      Navigator.pushNamed(context, PaymentDesign.route,
+                          arguments: PaymentPageRequired(
+                              doctorId: doctorId,
+                              appoDt: appoDt,
+                              appoTime: appoTime));
+                    }
                         : null, // Disable the button if date or time is not selected
-                    style: NeumorphicStyle(
+                    style: selectedDate != null && selectedTime != null
+                        ? NeumorphicStyle(
                       color: Colors.lightBlueAccent.shade200,
+                      shape: NeumorphicShape.convex,
+                      boxShape: NeumorphicBoxShape.roundRect(
+                        BorderRadius.circular(25),
+                      ),
+                      depth: 8,
+                      intensity: 0.7,
+                    )
+                        : NeumorphicStyle(
+                      color: Colors.grey.shade400, // Change the color to grey
                       shape: NeumorphicShape.convex,
                       boxShape: NeumorphicBoxShape.roundRect(
                         BorderRadius.circular(25),
@@ -213,7 +224,7 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
                     ),
                     child: Container(
                       padding:
-                          EdgeInsets.symmetric(vertical: 3.h, horizontal: 20.w),
+                      EdgeInsets.symmetric(vertical: 3.h, horizontal: 20.w),
                       child: Text(
                         'Pay Now',
                         style: TextStyle(
