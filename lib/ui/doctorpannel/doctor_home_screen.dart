@@ -1,5 +1,6 @@
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:hophseeflutter/ui/doctorpannel/doctor_dashboard.dart';
+import 'package:hophseeflutter/ui/doctorpannel/doctor_recent_visit.dart';
 
 import '../profile/profile_design.dart';
 
@@ -12,19 +13,10 @@ class DoctorHomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<DoctorHomeScreen> {
-  /*final items = const [
-    Icon(
-      Icons.home_outlined,
-      size: 30,
-    ),
-    Icon(
-      Icons.person_outline,
-      size: 30,
-    )
-  ];*/
 
   final List<Widget> screens = [
     DoctorDashboardScreen(),
+    DoctorRecentVisitScreen(),
     const ProfileDesign(isNotBackArrow: false),
   ];
 
@@ -98,7 +90,11 @@ class _HomeState extends State<DoctorHomeScreen> {
                   ),
                   padding: EdgeInsets.all(12),
                   child: Icon(
-                    index == 0 ? Icons.home_outlined : Icons.person_outline,
+                    index == 0
+                        ? Icons.home_outlined
+                        : index == 1
+                            ? Icons.list_alt
+                            : Icons.person_outline,
                     size: 24,
                     color: selectedIndex == index
                         ? Colors.white

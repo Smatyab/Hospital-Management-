@@ -1,4 +1,5 @@
-const host = "https://node-hophsee.onrender.com";
+const host = "https://crowded-galoshes-elk.cyclic.app";
+//const host = "https://node-hophsee.onrender.com";
 
 //const host = "http://192.168.2.172:8000";
 

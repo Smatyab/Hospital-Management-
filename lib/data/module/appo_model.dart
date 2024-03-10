@@ -45,14 +45,14 @@ class Appo {
 
   Appo(
       {this.appoId,
-        this.userId,
-        this.doctorId,
-        this.paymentId,
-        this.appoDt,
-        this.appoTime,
-        this.isHospitalVisit,
-        this.isApprove,
-        this.isActive});
+      this.userId,
+      this.doctorId,
+      this.paymentId,
+      this.appoDt,
+      this.appoTime,
+      this.isHospitalVisit,
+      this.isApprove,
+      this.isActive});
 
   Appo.fromJson(Map<String, dynamic> json) {
     appoId = json['appo_id'];

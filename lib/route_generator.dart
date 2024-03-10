@@ -1,6 +1,5 @@
 import 'package:flutter/material.dart';
 import 'package:hophseeflutter/data/module/doctor_model.dart';
-import 'package:hophseeflutter/data/module/user_model.dart';
 import 'package:hophseeflutter/ui/appointment/appo_book_screen.dart';
 import 'package:hophseeflutter/ui/appointment/appointment_book_screen.dart';
 import 'package:hophseeflutter/ui/appointment/appointment_list_screen.dart';
@@ -9,6 +8,8 @@ import 'package:hophseeflutter/ui/doctordetails/doctor_details_sreen.dart';
 import 'package:hophseeflutter/ui/doctordetails/doctor_list_screen.dart';
 import 'package:hophseeflutter/ui/doctorpannel/doctor_dashboard.dart';
 import 'package:hophseeflutter/ui/doctorpannel/doctor_home_screen.dart';
+import 'package:hophseeflutter/ui/doctorpannel/doctor_recent_visit.dart';
+import 'package:hophseeflutter/ui/doctorpannel/patient_profile_page.dart';
 import 'package:hophseeflutter/ui/home/login_screen.dart';
 import 'package:hophseeflutter/ui/home/register_screen.dart';
 import 'package:hophseeflutter/ui/payment/payment_design.dart';
@@ -43,8 +44,14 @@ class RouteGenerator {
       case DoctorDashboardScreen.route:
         return MaterialPageRoute(builder: (_) => DoctorDashboardScreen());
 
+      case DoctorRecentVisitScreen.route:
+        return MaterialPageRoute(builder: (_) => DoctorRecentVisitScreen());
+
       case ProfileDesign.route:
         return MaterialPageRoute(builder: (_) => const ProfileDesign());
+
+      case PatientInfoPage.route:
+        return MaterialPageRoute(builder: (_) => PatientInfoPage());
 
       case DoctorHomeScreen.route:
         return MaterialPageRoute(builder: (_) => const DoctorHomeScreen());

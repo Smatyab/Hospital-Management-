@@ -119,6 +119,7 @@ class _DoctorDashboardScreenState extends State<DoctorDashboardScreen> {
                               );
                           return AppoItemCard(
                             name: "${user?.userName}",
+                            appoid: "${appo.appoId}",
                             date: getENDate("${appo.appoDt}"),
                             time: "${appo.appoTime}",
                             imagePath: user?.imageUrl ?? "",
