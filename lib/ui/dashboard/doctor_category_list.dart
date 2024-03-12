@@ -1,8 +1,6 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
-import 'package:hophseeflutter/core/extfunction.dart';
 
 import '../../core/utils.dart';
 import '../../data/datasource/api_services.dart';
@@ -45,9 +43,9 @@ class DoctorCategoryList extends StatelessWidget {
                             lightSource: LightSource.topLeft,
                           ),
                           child: Container(
-                            height: 40.h,
+                            height: 42.h,
                             decoration: BoxDecoration(
-                              color: HexColor.fromHex("#E0EBFF"),
+                              //color: HexColor.fromHex("#E0EBFF"),
                               borderRadius: BorderRadius.circular(20),
                             ),
                             child: Padding(

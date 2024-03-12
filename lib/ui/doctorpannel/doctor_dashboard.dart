@@ -36,7 +36,7 @@ class _DoctorDashboardScreenState extends State<DoctorDashboardScreen> {
     if (widget.appoList == null) {
       Preference.getValueFromSharedPreferences(DOCTOR_ID_PREFERENCE)
           .then((value) {
-        apiService.getAppoList(doctorId: value).then(
+        apiService.getAppoList(doctorId: value, isHospitalVisit: 0).then(
           (value) {
             Map<String, dynamic> data = {};
             widget.appoList = value;
@@ -124,6 +124,7 @@ class _DoctorDashboardScreenState extends State<DoctorDashboardScreen> {
                             time: "${appo.appoTime}",
                             imagePath: user?.imageUrl ?? "",
                             email: "${user?.emailId}",
+                            patientId: user?.userId,
                           );
                         },
                       );

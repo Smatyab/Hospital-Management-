@@ -1,16 +1,11 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hophseeflutter/core/widget/custome_app_bar.dart';
-import 'package:hophseeflutter/ui/appointment/appo_book_screen.dart';
-import 'package:hophseeflutter/ui/appointment/appointment_list_screen.dart';
 import 'package:hophseeflutter/ui/dashboard/doctor_card.dart';
-import 'package:hophseeflutter/ui/doctordetails/doctor_details_card.dart';
 
 import '../../core/extfunction.dart';
 import '../../data/module/doctor_model.dart';
-import '../appointment/appointment_book_screen.dart';
 
 class DoctorDetailScreen extends StatefulWidget {
   final Doctor doctor;
@@ -310,7 +305,7 @@ class _DoctorDetailScreenState extends State<DoctorDetailScreen> {
                       ],
                     ),
                   ),
-                  ReviewCard(),
+                  //ReviewCard(),
                 ],
               ),
               /*Padding(

@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
@@ -6,6 +5,7 @@ import 'package:hophseeflutter/core/share_preference.dart';
 import 'package:hophseeflutter/data/datasource/api_services.dart';
 import 'package:hophseeflutter/data/module/categories.dart';
 import 'package:intl/intl.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
 import '../ui/dashboard/user_home_screen.dart';
 import '../ui/doctorpannel/doctor_home_screen.dart';
@@ -257,7 +257,7 @@ class EmailPage extends StatelessWidget {
                 ),
                 padding: EdgeInsets.symmetric(vertical: 10, horizontal: 20),
                 child: Text(
-                  'Next',
+                  'Reset Password',
                   style: TextStyle(
                     fontSize: 16,
                     fontWeight: FontWeight.bold,
@@ -273,7 +273,7 @@ class EmailPage extends StatelessWidget {
   }
 }
 
-class OtpPage extends StatelessWidget {
+/*class OtpPage extends StatelessWidget {
   final TextEditingController otpController;
   final VoidCallback onNext;
   final VoidCallback onResend;
@@ -542,4 +542,28 @@ class ResetPasswordPage extends StatelessWidget {
       ),
     );
   }
+}*/
+
+Future<String> initiatePayment(double amount, Razorpay razorpay) async {
+  Map<String, dynamic> options = {
+    'key': 'rzp_test_v9RHzydMvghKWL', // Replace with your API key
+    'amount': amount * 100, // Convert amount to paise (100 paise = ₹1)
+    'name': 'Hophsee',
+    'description': 'Payment for booking appointment',
+    'external': {
+      'wallets': [
+        'paytm'
+      ] // Optional: List of wallets to display (e.g., 'paytm')
+    }
+  };
+
+  try {
+    razorpay.open(options);
+    return "Successfully";
+  } catch (e) {
+    debugPrint('Error: $e'); // Log payment errors for debugging
+    // Handle errors appropriately, e.g., show an error message to the user
+    return "Unsuccessfully";
+  }
+  return "Unsuccessfully";
 }

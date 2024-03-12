@@ -1,25 +1,20 @@
-import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:hophseeflutter/core/utils.dart';
-import 'package:hophseeflutter/data/datasource/api_services.dart';
-import 'package:hophseeflutter/data/module/doctor_model.dart';
-import 'package:hophseeflutter/data/module/user_model.dart';
-
-import '../../data/module/appo_model.dart';
 
 class AppointmentCard extends StatefulWidget {
   final String appoDate;
   final String appoTime;
   final String doctorName;
+  final bool isRemoveBtnView;
   Function()? onRemoveClick;
 
   AppointmentCard(
-      {
+      {super.key,
       /* required this.user, required this.doctor*/
       required this.appoDate,
       required this.appoTime,
       required this.doctorName,
-      required this.onRemoveClick});
+      required this.onRemoveClick,
+      required this.isRemoveBtnView});
 
   @override
   State<AppointmentCard> createState() => _AppointmentCardState();
@@ -65,17 +60,25 @@ class _AppointmentCardState extends State<AppointmentCard> {
                 ),
               ],
             ),
-            InkWell(
-              onTap: widget.onRemoveClick,
-              child: Image.asset(
-                "assets/ic_close.png",
-                height: 40,
-                width: 40,
-              ),
-            ),
+            removeBtn(widget.isRemoveBtnView)
           ],
         ),
       ),
     );
+  }
+
+  Widget removeBtn(bool? isBtnView) {
+    if (isBtnView == true) {
+      return InkWell(
+        onTap: widget.onRemoveClick,
+        child: Image.asset(
+          "assets/ic_close.png",
+          height: 40,
+          width: 40,
+        ),
+      );
+    } else {
+      return const SizedBox(height: 0, width: 0);
+    }
   }
 }

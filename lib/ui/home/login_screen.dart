@@ -1,13 +1,13 @@
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
 import 'package:hophseeflutter/core/extfunction.dart';
 import 'package:hophseeflutter/ui/home/register_screen.dart';
+
 import '../../core/utils.dart';
-import '../../core/widget/custom_text_field.dart';
 import '../../core/widget/common_label_with_tap.dart';
+import '../../core/widget/custom_text_field.dart';
 import '../../data/datasource/api_services.dart';
 import 'forget_password_bottom_sheet.dart';
 
@@ -48,6 +48,8 @@ class _LoginScreenState extends State<LoginScreen> {
               Color(0xFFACB6E5),*/
               Colors.blueGrey.shade400,
               Colors.white60,
+              Colors.white60,
+              Colors.blueGrey.shade400,
             ],
           ),
         ),
@@ -62,10 +64,21 @@ class _LoginScreenState extends State<LoginScreen> {
                 ),
                 depth: 8,
                 lightSource: LightSource.topLeft,
-                color: Colors.transparent,
+                //color: Colors.transparent,
                 intensity: 0.7,
               ),
               child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white70,
+                      Colors.blueGrey.shade100,
+                      Colors.white70,
+                    ],
+                  ),
+                ),
                 padding: EdgeInsets.only(left: 5.w, right: 5.w),
                 child: Column(
                   children: <Widget>[
@@ -181,8 +194,8 @@ class _LoginScreenState extends State<LoginScreen> {
                         ),
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                            vertical: 3.h,
-                            horizontal: 30.w,
+                            vertical: 1.h,
+                            horizontal: 20.w,
                           ),
                           child: Text(
                             'Login',

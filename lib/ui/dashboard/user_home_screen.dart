@@ -1,5 +1,5 @@
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
-import 'package:hophseeflutter/ui/appointment/appointment_list_screen.dart';
+import 'package:hophseeflutter/ui/appointment/appointment_type.dart';
 
 import '../doctordetails/doctor_list_screen.dart';
 import '../profile/profile_design.dart';
@@ -17,7 +17,9 @@ class _HomeState extends State<UserHomeScreen> {
   final List<Widget> screens = [
     const MyHome(),
     DoctorListScreen(isBack: false),
-    AppointmentListScreen(appoList: null),
+    AppointmentScheduler(),
+    /*
+    AppointmentListScreen(appoList: null),*/
     const ProfileDesign(isNotBackArrow: false),
   ];
 

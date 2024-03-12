@@ -1,17 +1,17 @@
-class Patient {
+class PatientModel {
   int? error;
   String? message;
-  List<Data>? data;
+  List<Patient>? data;
 
-  Patient({this.error, this.message, this.data});
+  PatientModel({this.error, this.message, this.data});
 
-  Patient.fromJson(Map<String, dynamic> json) {
+  PatientModel.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     message = json['message'];
     if (json['data'] != null) {
-      data = <Data>[];
+      data = <Patient>[];
       json['data'].forEach((v) {
-        data!.add(new Data.fromJson(v));
+        data!.add(Patient.fromJson(v));
       });
     }
   }
@@ -27,7 +27,7 @@ class Patient {
   }
 }
 
-class Data {
+class Patient {
   int? patientId;
   String? patientName;
   String? emailId;
@@ -51,7 +51,7 @@ class Data {
   String? updateDt;
   int? isActive;
 
-  Data(
+  Patient(
       {this.patientId,
       this.patientName,
       this.emailId,
@@ -75,7 +75,7 @@ class Data {
       this.updateDt,
       this.isActive});
 
-  Data.fromJson(Map<String, dynamic> json) {
+  Patient.fromJson(Map<String, dynamic> json) {
     patientId = json['patient_id'];
     patientName = json['patient_name'];
     emailId = json['email_id'];

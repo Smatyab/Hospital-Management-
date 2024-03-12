@@ -1,19 +1,14 @@
-class ResponseQuery {
+class ResultModel {
   int? error;
   String? message;
-  Result? data;
+  Data? data;
 
-  ResponseQuery({this.error, this.message, this.data});
+  ResultModel({this.error, this.message, this.data});
 
-  ResponseQuery.fromJson(Map<String, dynamic> json) {
+  ResultModel.fromJson(Map<String, dynamic> json) {
     error = json['error'];
     message = json['message'];
-    data = json['data'] != null ? new Result.fromJson(json['data'][0]) : null;
-  }
-
-  @override
-  String toString() {
-    return 'ResponseQuery{error: $error, message: $message, data: $data}';
+    data = json['data'] != null ? new Data.fromJson(json['data']) : null;
   }
 
   Map<String, dynamic> toJson() {
@@ -27,7 +22,7 @@ class ResponseQuery {
   }
 }
 
-class Result {
+class Data {
   int? fieldCount;
   int? affectedRows;
   int? insertId;
@@ -37,7 +32,7 @@ class Result {
   bool? protocol41;
   int? changedRows;
 
-  Result(
+  Data(
       {this.fieldCount,
       this.affectedRows,
       this.insertId,
@@ -47,7 +42,7 @@ class Result {
       this.protocol41,
       this.changedRows});
 
-  Result.fromJson(Map<String, dynamic> json) {
+  Data.fromJson(Map<String, dynamic> json) {
     fieldCount = json['fieldCount'];
     affectedRows = json['affectedRows'];
     insertId = json['insertId'];
@@ -56,11 +51,6 @@ class Result {
     message = json['message'];
     protocol41 = json['protocol41'];
     changedRows = json['changedRows'];
-  }
-
-  @override
-  String toString() {
-    return 'Result{fieldCount: $fieldCount, affectedRows: $affectedRows, insertId: $insertId, serverStatus: $serverStatus, warningCount: $warningCount, message: $message, protocol41: $protocol41, changedRows: $changedRows}';
   }
 
   Map<String, dynamic> toJson() {

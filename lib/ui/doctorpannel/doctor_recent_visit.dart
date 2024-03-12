@@ -37,7 +37,7 @@ class _DoctorRecentVisitScreenState extends State<DoctorRecentVisitScreen> {
     if (widget.appoList == null) {
       Preference.getValueFromSharedPreferences(DOCTOR_ID_PREFERENCE)
           .then((value) {
-        apiService.getAppoList(doctorId: value).then(
+        apiService.getAppoList(doctorId: value, isHospitalVisit: 1).then(
           (value) {
             Map<String, dynamic> data = {};
             widget.appoList = value;
@@ -100,13 +100,13 @@ class _DoctorRecentVisitScreenState extends State<DoctorRecentVisitScreen> {
                                   appo.userId // Provide a default value if the object is not found
                               );
                           return AppoItemCard(
-                            name: "${user?.userName}",
-                            appoid: "${appo.appoId}",
-                            date: getENDate("${appo.appoDt}"),
-                            time: "${appo.appoTime}",
-                            imagePath: user?.imageUrl ?? "",
-                            email: "${user?.emailId}",
-                          );
+                              name: "${user?.userName}",
+                              appoid: "${appo.appoId}",
+                              date: getENDate("${appo.appoDt}"),
+                              time: "${appo.appoTime}",
+                              imagePath: user?.imageUrl ?? "",
+                              email: "${user?.emailId}",
+                              patientId: user?.userId);
                         },
                       );
                     } else {

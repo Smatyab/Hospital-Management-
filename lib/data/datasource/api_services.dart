@@ -4,16 +4,15 @@ import 'package:dio/dio.dart';
 import 'package:hophseeflutter/core/share_preference.dart';
 import 'package:hophseeflutter/data/module/doctor_login_model.dart';
 import 'package:hophseeflutter/data/module/doctor_model.dart';
-import 'package:hophseeflutter/data/module/payment_model.dart';
+import 'package:hophseeflutter/data/module/patient_model.dart';
 import 'package:hophseeflutter/data/module/payment_page_required.dart';
-import 'package:intl/intl.dart';
 
 import '../../core/constant.dart';
 import '../../core/utils.dart';
-import '../../ui/appointment/appointment_list_screen.dart';
 import '../module/appo_model.dart';
-import '../module/user_login_model.dart';
 import '../module/response_query.dart';
+import '../module/result_model.dart';
+import '../module/user_login_model.dart';
 import '../module/user_model.dart';
 
 abstract class ApiService {
@@ -27,16 +26,20 @@ abstract class ApiService {
 
   Future<UserModel> getUserList();
 
-  Future<ResponseQuery> addPaymentDetails(
-      PaymentPageRequired paymentPageRequired, int amount);
+  Future<ResultModel> addPaymentDetails(
+      PaymentPageRequired paymentPageRequired, String refNumber, int amount);
 
-  Future<ResponseQuery> addAppointment(
+  Future<ResultModel> addAppointment(
       PaymentPageRequired paymentPageRequired, int paymentId);
 
   Future<UserModel> getUserById(int userId);
 
   Future<AppoList> getAppoList(
       {int? doctorId, int? userId, int? isHospitalVisit});
+
+  Future<AppoList> getAppoListByType({int? userId, String? type});
+
+  Future<PatientModel> getPatient(int? patientId);
 
   Future<DoctorList> getDoctorById(int doctorId);
 
@@ -195,12 +198,11 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future<ResponseQuery> addPaymentDetails(
-      PaymentPageRequired paymentPageRequired, int amount) async {
+  Future<ResultModel> addPaymentDetails(PaymentPageRequired paymentPageRequired,
+      String refNumber, int amount) async {
     try {
       Map<String, dynamic> data = {};
-      data["payment_ref_no"] =
-          "${paymentPageRequired.doctorId}${DateTime.now()}";
+      data["payment_ref_no"] = refNumber;
       int userId =
           await Preference.getValueFromSharedPreferences(USER_ID_PREFERENCE);
       data["payer_id"] = userId;
@@ -219,16 +221,15 @@ class ApiServiceImpl extends ApiService {
           },
         ),
       );
-      ResponseQuery registerUserResponse =
-          ResponseQuery.fromJson(response.data);
+      ResultModel registerUserResponse = ResultModel.fromJson(response.data);
       return registerUserResponse;
     } on Exception catch (error) {
-      return ResponseQuery.fromJson(getErrorMap("Http Error"));
+      return ResultModel.fromJson(getErrorMap("Http Error"));
     }
   }
 
   @override
-  Future<ResponseQuery> addAppointment(
+  Future<ResultModel> addAppointment(
       PaymentPageRequired paymentPageRequired, int paymentId) async {
     try {
       Map<String, dynamic> data = {};
@@ -259,11 +260,12 @@ class ApiServiceImpl extends ApiService {
           },
         ),
       );
-      ResponseQuery registerUserResponse =
-          ResponseQuery.fromJson(response.data);
+      ResultModel registerUserResponse = ResultModel.fromJson(response.extra);
       return registerUserResponse;
+      //return "Succesfully";
     } on Exception catch (error) {
-      return ResponseQuery.fromJson(getErrorMap("Http Error"));
+      return ResultModel.fromJson(getErrorMap("Http Error"));
+      // return "Http Error";
     }
   }
 
@@ -308,6 +310,46 @@ class ApiServiceImpl extends ApiService {
       return appoListResponse;
     } on Exception catch (error) {
       return AppoList.fromJson(getErrorMap("Http Error"));
+    }
+  }
+
+  @override
+  Future<AppoList> getAppoListByType({int? userId, String? type}) async {
+    try {
+      String endPoint = "";
+      switch (type) {
+        case APPO_TYPE_UPCOMING:
+          endPoint = appoUpcomingEP;
+          break;
+        case APPO_TYPE_APPROVED:
+          endPoint = appoApprovedEP;
+          break;
+        case APPO_TYPE_CANCELLED:
+          endPoint = appoCancelledEP;
+          break;
+        case APPO_TYPE_EXPIRED:
+          endPoint = appoExpiredEP;
+          break;
+      }
+      final response = await dio.get(endPoint, queryParameters: {
+        "user_id": userId,
+      });
+      print("object api call : ${response.realUri}");
+      AppoList appoListResponse = AppoList.fromJson(response.data);
+      return appoListResponse;
+    } on Exception catch (error) {
+      return AppoList.fromJson(getErrorMap("Http Error"));
+    }
+  }
+
+  @override
+  Future<PatientModel> getPatient(int? patientId) async {
+    try {
+      final response = await dio.get("$patientEp/$patientId");
+      PatientModel appoListResponse = PatientModel.fromJson(response.data);
+      return appoListResponse;
+    } on Exception catch (error) {
+      return PatientModel.fromJson(getErrorMap("Http Error"));
     }
   }
 

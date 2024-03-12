@@ -1,13 +1,17 @@
+import 'package:dio/dio.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:google_fonts/google_fonts.dart';
+import 'package:hophseeflutter/data/module/payment_page_required.dart';
 import 'package:intl/intl.dart';
+import 'package:razorpay_flutter/razorpay_flutter.dart';
 
+import '../../core/utils.dart';
 import '../../core/widget/custome_app_bar.dart';
+import '../../data/datasource/api_services.dart';
 import '../../data/module/doctor_model.dart';
-import '../../data/module/payment_page_required.dart';
 import '../dashboard/doctor_card.dart';
-import '../payment/payment_design.dart';
+import '../dashboard/user_home_screen.dart';
 
 class AppointmentBookScreen2 extends StatefulWidget {
   final Doctor doctor;
@@ -27,6 +31,8 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
   DateTime? selectedDate;
   TimeOfDay? selectedTime = TimeOfDay.now();
   TextEditingController dateTimeController = TextEditingController();
+  var razorpay = Razorpay();
+  ApiServiceImpl apiService = ApiServiceImpl(Dio());
 
   Future<void> _selectDateTime(BuildContext context) async {
     DateTime currentDate = DateTime.now();
@@ -68,7 +74,7 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
             selectedDate = pickedDate;
             selectedTime = pickedTime!;
             dateTimeController.text =
-            '${DateFormat('dd-MM-yyyy').format(selectedDate!)} ${selectedTime!.format(context)}';
+                '${DateFormat('dd-MM-yyyy').format(selectedDate!)} ${selectedTime!.format(context)}';
           });
         } else {
           // Show an error message or handle the invalid time selection
@@ -191,44 +197,47 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
                   child: NeumorphicButton(
                     onPressed: selectedDate != null && selectedTime != null
                         ? () {
-                      int? doctorId = widget.doctor.doctorId;
-                      String appoDt = DateFormat('yyyy-MM-dd')
-                          .format(selectedDate!); // Format the date
-                      String appoTime = selectedTime!
-                          .format(context); // Format the time
-                      Navigator.pushNamed(context, PaymentDesign.route,
-                          arguments: PaymentPageRequired(
-                              doctorId: doctorId,
-                              appoDt: appoDt,
-                              appoTime: appoTime));
-                    }
+                            initiatePayment(500, razorpay);
+                            print("Pay now Button click");
+                            showSnackbar(context, "Waiting for payment portal");
+                            /*  // Format the time
+                            Navigator.pushNamed(context, PaymentDesign.route,
+                                arguments: PaymentPageRequired(
+                                    doctorId: doctorId,
+                                    appoDt: appoDt,
+                                    appoTime: appoTime));*/
+                          }
                         : null, // Disable the button if date or time is not selected
                     style: selectedDate != null && selectedTime != null
                         ? NeumorphicStyle(
-                      color: Colors.lightBlueAccent.shade200,
-                      shape: NeumorphicShape.convex,
-                      boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(25),
-                      ),
-                      depth: 8,
-                      intensity: 0.7,
-                    )
+                            color: Colors.lightBlueAccent.shade200,
+                            shape: NeumorphicShape.convex,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(25),
+                            ),
+                            depth: 8,
+                            intensity: 0.7,
+                          )
                         : NeumorphicStyle(
-                      color: Colors.grey.shade400, // Change the color to grey
-                      shape: NeumorphicShape.convex,
-                      boxShape: NeumorphicBoxShape.roundRect(
-                        BorderRadius.circular(25),
-                      ),
-                      depth: 8,
-                      intensity: 0.7,
-                    ),
-                    child: Container(
-                      padding:
-                      EdgeInsets.symmetric(vertical: 3.h, horizontal: 20.w),
-                      child: Text(
-                        'Pay Now',
-                        style: TextStyle(
-                            color: Colors.black, fontWeight: FontWeight.bold),
+                            color: Colors
+                                .grey.shade400, // Change the color to grey
+                            shape: NeumorphicShape.convex,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(25),
+                            ),
+                            depth: 8,
+                            intensity: 0.7,
+                          ),
+                    child: GestureDetector(
+                      onTap: () {},
+                      child: Container(
+                        padding: EdgeInsets.symmetric(
+                            vertical: 3.h, horizontal: 20.w),
+                        child: Text(
+                          'Pay Now',
+                          style: TextStyle(
+                              color: Colors.black, fontWeight: FontWeight.bold),
+                        ),
                       ),
                     ),
                   ),
@@ -239,6 +248,65 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
         ],
       ),
     );
+  }
+
+  @override
+  void dispose() {
+    super.dispose();
+    razorpay.clear();
+  }
+
+  @override
+  void initState() {
+    super.initState();
+    razorpay.on(Razorpay.EVENT_PAYMENT_SUCCESS, handlePaymentSuccess);
+    razorpay.on(Razorpay.EVENT_PAYMENT_ERROR, handlePaymentError);
+  }
+
+  void handlePaymentSuccess(PaymentSuccessResponse response) {
+    print("payment pay");
+    showSnackbar(context, "Payment done please wait few second...");
+    int? doctorId = widget.doctor.doctorId;
+    String appoDt =
+        DateFormat('yyyy-MM-dd').format(selectedDate!); // Format the date
+    String appoTime = selectedTime!.format(context);
+    PaymentPageRequired paymentPageRequired = PaymentPageRequired(
+        doctorId: doctorId, appoDt: appoDt, appoTime: appoTime);
+    apiService
+        .addPaymentDetails(paymentPageRequired, "${response.paymentId}", 500)
+        .then((value) {
+      if (value.error == 0) {
+        int? paymentId = value.data?.insertId;
+        if (paymentId != null) {
+          apiService
+              .addAppointment(paymentPageRequired, paymentId)
+              .then((value) {
+            if (value.error == 0) {
+              showSnackbar(context, "Something went wrong..");
+            } else {
+              Navigator.pushNamedAndRemoveUntil(
+                  context, UserHomeScreen.route, (route) => false);
+              /*Navigator.pushNamed(
+                  context, PaymentDoneDesign.route,
+                  arguments: amount);*/
+            }
+          });
+        } else {
+          showSnackbar(context, "Something went wrong..");
+        }
+      } else {
+        showSnackbar(context, "Something went wrong..");
+      }
+    });
+    // Handle successful payment, e.g., show a success message
+    // Use response.paymentId and other data as needed
+  }
+
+  void handlePaymentError(PaymentFailureResponse response) {
+    print("payment pay error");
+    showSnackbar(context, "Something went wrong..");
+    // Handle payment failure, e.g., show an error message
+    // Use response.code and response.message for error details
   }
 
   Widget DateTimePicker() {

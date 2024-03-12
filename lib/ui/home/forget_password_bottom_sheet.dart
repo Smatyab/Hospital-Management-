@@ -1,4 +1,3 @@
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 
@@ -39,6 +38,8 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
               Color(0xFFACB6E5),*/
               Colors.blueGrey.shade400,
               Colors.white60,
+              Colors.white60,
+              Colors.blueGrey.shade400,
             ],
           ),
         ),
@@ -64,8 +65,9 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
                   begin: Alignment.topLeft,
                   end: Alignment.bottomRight,
                   colors: [
-                    Colors.blueGrey.shade300,
-                    Colors.white60,
+                    Colors.white70,
+                    Colors.blueGrey.shade100,
+                    Colors.white70,
                   ],
                 ),
               ),
@@ -86,7 +88,7 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
                       },
                       emailController: _emailController,
                     ),
-                    OtpPage(
+                    /*OtpPage(
                       otpController: _otpController,
                       onNext: () {
                         _pageController.nextPage(
@@ -100,7 +102,7 @@ class _ForgetPasswordBottomSheetState extends State<ForgetPasswordBottomSheet> {
                     ResetPasswordPage(
                       newPasswordController: _newPasswordController,
                       pageController: _pageController,
-                    ),
+                    ),*/
                   ],
                 ),
               ),

@@ -1,6 +1,5 @@
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
-import 'package:hophseeflutter/core/share_preference.dart';
 import 'package:hophseeflutter/data/datasource/api_services.dart';
 import 'package:hophseeflutter/ui/payment/payment_done.dart';
 
@@ -127,7 +126,7 @@ class PaymentBottomSheet extends StatelessWidget {
                 }*/
                   if (formKey.currentState!.validate()) {
                     apiService
-                        .addPaymentDetails(paymentPageRequired, amount)
+                        .addPaymentDetails(paymentPageRequired, "", amount)
                         .then((value) {
                       if (value.error == 0) {
                         int? paymentId = value.data?.insertId;
@@ -135,7 +134,7 @@ class PaymentBottomSheet extends StatelessWidget {
                           apiService
                               .addAppointment(paymentPageRequired, paymentId)
                               .then((value) {
-                            if (value.error != 0) {
+                            if (value != "Succesfully") {
                               showSnackbar(context, "Something went wrong..");
                             } else {
                               Navigator.pushNamed(

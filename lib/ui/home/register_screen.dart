@@ -1,7 +1,6 @@
 import 'dart:io';
 
 import 'package:dio/dio.dart';
-import 'package:flutter/material.dart';
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
 import 'package:hophseeflutter/core/extfunction.dart';
@@ -13,8 +12,8 @@ import '../../core/widget/custom_text_field.dart';
 import '../../core/widget/date_picker.dart';
 import '../../data/datasource/api_services.dart';
 import '../../data/module/user_model.dart';
-import 'gender_drop_down.dart';
 import '../home/login_screen.dart'; // Import the login screen
+import 'gender_drop_down.dart';
 
 class RegisterScreen extends StatefulWidget {
   const RegisterScreen({Key? key});
@@ -54,8 +53,10 @@ class _RegisterScreenState extends State<RegisterScreen> {
             colors: [
               /*Color(0xFF74ebd5),
               Color(0xFFACB6E5),*/
-              Colors.lightBlueAccent.shade400,
+              Colors.blueGrey.shade400,
               Colors.white60,
+              Colors.white60,
+              Colors.blueGrey.shade400,
             ],
           ),
         ),
@@ -69,7 +70,7 @@ class _RegisterScreenState extends State<RegisterScreen> {
               style: NeumorphicStyle(
                 shape: NeumorphicShape.flat,
                 boxShape: NeumorphicBoxShape.roundRect(
-                  BorderRadius.circular(12),
+                  BorderRadius.circular(25),
                 ),
                 depth: 8,
                 lightSource: LightSource.topLeft,
@@ -77,6 +78,17 @@ class _RegisterScreenState extends State<RegisterScreen> {
                 intensity: 0.7,
               ),
               child: Container(
+                decoration: BoxDecoration(
+                  gradient: LinearGradient(
+                    begin: Alignment.topLeft,
+                    end: Alignment.bottomRight,
+                    colors: [
+                      Colors.white70,
+                      Colors.blueGrey.shade100,
+                      Colors.white70,
+                    ],
+                  ),
+                ),
                 padding:
                     EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
                 child: Column(
@@ -221,8 +233,8 @@ class _RegisterScreenState extends State<RegisterScreen> {
                         ),
                         child: Container(
                           padding: EdgeInsets.symmetric(
-                            vertical: 3.h,
-                            horizontal: 30.w,
+                            vertical: 1.h,
+                            horizontal: 20.w,
                           ),
                           child: Text(
                             'Register',

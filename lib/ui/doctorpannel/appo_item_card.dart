@@ -13,6 +13,7 @@ class AppoItemCard extends StatelessWidget {
     required this.date,
     required this.time,
     required this.email,
+    required this.patientId,
   }) : super(key: key);
 
   final String name;
@@ -21,12 +22,14 @@ class AppoItemCard extends StatelessWidget {
   final String time;
   final String email;
   final String imagePath;
+  final int? patientId;
 
   @override
   Widget build(BuildContext context) {
     return GestureDetector(
       onTap: () {
-        Navigator.pushNamed(context, PatientInfoPage.route);
+        Navigator.pushNamed(context, PatientInfoPage.route,
+            arguments: patientId);
       },
       child: Container(
         margin: EdgeInsets.symmetric(vertical: 10.h, horizontal: 20.w),

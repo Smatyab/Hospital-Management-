@@ -118,6 +118,7 @@ class _AppointmentListScreenState extends State<AppointmentListScreen> {
                                         appo.appoDt ?? ""),
                                     appoTime: appo.appoTime ?? "",
                                     doctorName: doctor?.doctorName ?? "",
+                                    isRemoveBtnView: true,
                                     onRemoveClick: () {
                                       showSnackbar(context, "Delete Tap");
                                       ApiServiceImpl(Dio())
