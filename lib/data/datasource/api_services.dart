@@ -238,18 +238,22 @@ class ApiServiceImpl extends ApiService {
       data["user_id"] = userId;
       data["doctor_id"] = paymentPageRequired.doctorId;
       data["payment_id"] = paymentId;
-      data["appo_dt"] = convertToyyyymmdd(paymentPageRequired.appoDt ?? "");
-      data["appo_time"] = paymentPageRequired.appoTime;
+      data["appo_dt"] = paymentPageRequired.appoDt;
+      data["appo_time"] = removeAmPm("${paymentPageRequired.appoTime}");
       /* String date = convertToyyyymmdd(paymentPageRequired.appoDt ?? "");
       String dateString = "$date${paymentPageRequired.appoTime}";
       DateTime dateTime = DateTime.parse(dateString);
       String isoTime = DateFormat('yyyy-MM-ddTHH:mm:ss').format(dateTime);
       data["appo_dt"] = date;
       data["appo_time"] = isoTime;*/
-      data["is_approve"] = true;
+      data["is_approve"] = 1;
 
-      print("1>>>> appo_dt ${paymentPageRequired.appoDt}");
-      print("1>>>> appo_time ${paymentPageRequired.appoTime}");
+      print("Add Appo 1>>>> appo_dt ${paymentPageRequired.appoDt}");
+      print("Add Appo 1>>>> appo_time ${paymentPageRequired.appoTime}");
+      print("Add Appo 1>>>> userId $userId");
+      print("Add Appo 1>>>> docotr_id ${paymentPageRequired.doctorId}");
+      print("Add Appo1>>>> payment_id $paymentId");
+      print("Add Appo ${data}");
 
       final response = await dio.post(
         appoEp,
@@ -260,10 +264,13 @@ class ApiServiceImpl extends ApiService {
           },
         ),
       );
-      ResultModel registerUserResponse = ResultModel.fromJson(response.extra);
+      print("Add Appo ${response.data}");
+      print("Add Appo ${response.extra}");
+      ResultModel registerUserResponse = ResultModel.fromJson(response.data);
       return registerUserResponse;
       //return "Succesfully";
     } on Exception catch (error) {
+      print("Add Appo ${error.toString()}");
       return ResultModel.fromJson(getErrorMap("Http Error"));
       // return "Http Error";
     }

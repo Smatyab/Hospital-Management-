@@ -270,6 +270,8 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
     String appoDt =
         DateFormat('yyyy-MM-dd').format(selectedDate!); // Format the date
     String appoTime = selectedTime!.format(context);
+    print("Add Appo appodt $appoDt apptime $appoTime");
+
     PaymentPageRequired paymentPageRequired = PaymentPageRequired(
         doctorId: doctorId, appoDt: appoDt, appoTime: appoTime);
     apiService
@@ -277,12 +279,14 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
         .then((value) {
       if (value.error == 0) {
         int? paymentId = value.data?.insertId;
+        print("Add Appo paymentID $paymentId");
         if (paymentId != null) {
           apiService
               .addAppointment(paymentPageRequired, paymentId)
               .then((value) {
-            if (value.error == 0) {
-              showSnackbar(context, "Something went wrong..");
+            print("Add Appo ${value.error}");
+            if (value.error == 1) {
+              showSnackbar(context, "${value.message}");
             } else {
               Navigator.pushNamedAndRemoveUntil(
                   context, UserHomeScreen.route, (route) => false);

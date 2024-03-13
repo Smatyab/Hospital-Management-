@@ -161,6 +161,15 @@ String convertToyyyymmdd(String inputDate) {
   return "";
 }
 
+String removeAmPm(String timeString) {
+  int indexOfSpace = timeString.indexOf(' ');
+  if (indexOfSpace != -1) {
+    return timeString.substring(0, indexOfSpace);
+  } else {
+    return timeString; // No AM/PM indicator found
+  }
+}
+
 String getENDate(String isoDate) {
   DateTime dateTime = DateTime.parse(isoDate);
 

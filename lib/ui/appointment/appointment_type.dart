@@ -8,6 +8,7 @@ import '../../core/share_preference.dart';
 import '../../core/utils.dart';
 import '../../data/datasource/api_services.dart';
 import '../../data/module/appo_model.dart';
+import '../../data/module/doctor_model.dart';
 import 'appointment_card.dart';
 
 class Appointment {
@@ -31,6 +32,7 @@ class AppointmentScheduler extends StatefulWidget {
   @override
   _AppointmentSchedulerState createState() => _AppointmentSchedulerState();
   List<Appo>? appoList;
+  List<Doctor>? doctorList;
   int? userId;
 }
 
@@ -68,6 +70,15 @@ class _AppointmentSchedulerState extends State<AppointmentScheduler> {
         print("object ${appoList.toString()}");
         if (value.error == 0 && appoList != null && appoList.isNotEmpty) {
           widget.appoList = value.data;
+          if (widget.doctorList == null) {
+            apiServices.getDoctorList().then((value) {
+              if (value.error == 0) {
+                widget.doctorList = value.data;
+              }
+            }, onError: (error) {
+              print(error);
+            });
+          }
           _controller.sink.add({"type": type});
         } else {
           _controller.sink.add({"type": "Error"});
@@ -168,15 +179,15 @@ class _AppointmentSchedulerState extends State<AppointmentScheduler> {
           itemCount: widget.appoList?.length,
           itemBuilder: (BuildContext context, int index) {
             Appo? appo = widget.appoList?[index];
-            /* Doctor? doctor = doctorList?.firstWhere((obj) =>
-                                obj.doctorId ==
-                                    appo.doctorId // Provide a default value if the object is not found
-                                );*/
+            Doctor? doctor = widget.doctorList?.firstWhere((obj) =>
+                    obj.doctorId ==
+                    appo?.doctorId // Provide a default value if the object is not found
+                );
             return AppointmentCard(
                 appoDate: convertIsoToIndianDate(appo?.appoDt ?? ""),
                 appoTime: appo?.appoTime ?? "",
-                /* doctorName: doctor?.doctorName ?? "",*/
-                doctorName: "",
+                doctorName: doctor?.doctorName ?? "",
+                /*doctorName: "",*/
                 isRemoveBtnView: _tabIndex == 0,
                 onRemoveClick: () {
                   showSnackbar(context, "Delete Tap");
