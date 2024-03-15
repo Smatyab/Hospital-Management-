@@ -197,7 +197,7 @@ class _AppointmentBookScreen2State extends State<AppointmentBookScreen2> {
                   child: NeumorphicButton(
                     onPressed: selectedDate != null && selectedTime != null
                         ? () {
-                            initiatePayment(500, razorpay);
+                            initiatePayment(1100, razorpay);
                             print("Pay now Button click");
                             showSnackbar(context, "Waiting for payment portal");
                             /*  // Format the time

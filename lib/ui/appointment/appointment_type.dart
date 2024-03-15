@@ -173,21 +173,23 @@ class _AppointmentSchedulerState extends State<AppointmentScheduler> {
     return Column(
       crossAxisAlignment: CrossAxisAlignment.start,
       children: [
-        SizedBox(height: 16),
-        ListView.builder(
-          shrinkWrap: true,
-          itemCount: widget.appoList?.length,
-          itemBuilder: (BuildContext context, int index) {
-            Appo? appo = widget.appoList?[index];
-            Doctor? doctor = widget.doctorList?.firstWhere((obj) =>
-                    obj.doctorId ==
-                    appo?.doctorId // Provide a default value if the object is not found
-                );
-            return AppointmentCard(
+        Container(
+          height: 600,
+          child: ListView.builder(
+            shrinkWrap: true,
+            itemCount: widget.appoList?.length,
+            itemBuilder: (BuildContext context, int index) {
+              Appo? appo = widget.appoList?[index];
+              Doctor? doctor = widget.doctorList?.firstWhere((obj) =>
+                      obj.doctorId ==
+                      appo?.doctorId // Provide a default value if the object is not found
+                  );
+              print("ImagePath ${doctor?.imageUrl}");
+              return AppointmentCard(
                 appoDate: convertIsoToIndianDate(appo?.appoDt ?? ""),
                 appoTime: appo?.appoTime ?? "",
                 doctorName: doctor?.doctorName ?? "",
-                /*doctorName: "",*/
+                imagePath: doctor?.imageUrl ?? "",
                 isRemoveBtnView: _tabIndex == 0,
                 onRemoveClick: () {
                   showSnackbar(context, "Delete Tap");
@@ -201,8 +203,10 @@ class _AppointmentSchedulerState extends State<AppointmentScheduler> {
                       showSnackbar(context, "Something went wrong");
                     }
                   });
-                });
-          },
+                },
+              );
+            },
+          ),
         ),
       ],
     );

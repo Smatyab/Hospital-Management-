@@ -1,7 +1,11 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_screenutil/flutter_screenutil.dart';
+
+import '../../core/constant.dart';
 
 class AppointmentCard extends StatefulWidget {
   final String appoDate;
+  final String imagePath;
   final String appoTime;
   final String doctorName;
   final bool isRemoveBtnView;
@@ -11,6 +15,7 @@ class AppointmentCard extends StatefulWidget {
       {super.key,
       /* required this.user, required this.doctor*/
       required this.appoDate,
+      required this.imagePath,
       required this.appoTime,
       required this.doctorName,
       required this.onRemoveClick,
@@ -31,6 +36,17 @@ class _AppointmentCardState extends State<AppointmentCard> {
         child: Row(
           mainAxisAlignment: MainAxisAlignment.spaceBetween,
           children: [
+            Container(
+              width: 65.w,
+              height: 65.h,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(15),
+                image: DecorationImage(
+                  image: NetworkImage("$host/${widget.imagePath}"),
+                  fit: BoxFit.cover,
+                ),
+              ),
+            ),
             Column(
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
@@ -71,10 +87,10 @@ class _AppointmentCardState extends State<AppointmentCard> {
     if (isBtnView == true) {
       return InkWell(
         onTap: widget.onRemoveClick,
-        child: Image.asset(
-          "assets/ic_close.png",
-          height: 40,
-          width: 40,
+        child: Icon(
+          Icons.cancel, // Use a suitable icon from the Material Design library
+          size: 30, // Adjust size as needed
+          color: Colors.black, // Customize color if desired
         ),
       );
     } else {

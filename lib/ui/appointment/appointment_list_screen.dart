@@ -117,6 +117,7 @@ class _AppointmentListScreenState extends State<AppointmentListScreen> {
                                     appoDate: convertIsoToIndianDate(
                                         appo.appoDt ?? ""),
                                     appoTime: appo.appoTime ?? "",
+                                    imagePath: "",
                                     doctorName: doctor?.doctorName ?? "",
                                     isRemoveBtnView: true,
                                     onRemoveClick: () {
