@@ -170,45 +170,47 @@ class _AppointmentSchedulerState extends State<AppointmentScheduler> {
   Widget setListView() {
     print("approved ${widget.appoList.toString()}");
 
-    return Column(
-      crossAxisAlignment: CrossAxisAlignment.start,
-      children: [
-        Container(
-          height: 600,
-          child: ListView.builder(
-            shrinkWrap: true,
-            itemCount: widget.appoList?.length,
-            itemBuilder: (BuildContext context, int index) {
-              Appo? appo = widget.appoList?[index];
-              Doctor? doctor = widget.doctorList?.firstWhere((obj) =>
-                      obj.doctorId ==
-                      appo?.doctorId // Provide a default value if the object is not found
-                  );
-              print("ImagePath ${doctor?.imageUrl}");
-              return AppointmentCard(
-                appoDate: convertIsoToIndianDate(appo?.appoDt ?? ""),
-                appoTime: appo?.appoTime ?? "",
-                doctorName: doctor?.doctorName ?? "",
-                imagePath: doctor?.imageUrl ?? "",
-                isRemoveBtnView: _tabIndex == 0,
-                onRemoveClick: () {
-                  showSnackbar(context, "Delete Tap");
-                  ApiServiceImpl(Dio())
-                      .removeAppointment(appo?.appoId ?? -1)
-                      .then((value) {
-                    if (value.error == 0) {
-                      showSnackbar(context, "Remove succesfully");
-                      setState(() {});
-                    } else {
-                      showSnackbar(context, "Something went wrong");
-                    }
-                  });
-                },
-              );
-            },
+    return SingleChildScrollView(
+      child: Column(
+        crossAxisAlignment: CrossAxisAlignment.start,
+        children: [
+          Container(
+            height: 600,
+            child: ListView.builder(
+              shrinkWrap: true,
+              itemCount: widget.appoList?.length,
+              itemBuilder: (BuildContext context, int index) {
+                Appo? appo = widget.appoList?[index];
+                Doctor? doctor = widget.doctorList?.firstWhere((obj) =>
+                        obj.doctorId ==
+                        appo?.doctorId // Provide a default value if the object is not found
+                    );
+                print("ImagePath ${doctor?.imageUrl}");
+                return AppointmentCard(
+                  appoDate: convertIsoToIndianDate(appo?.appoDt ?? ""),
+                  appoTime: appo?.appoTime ?? "",
+                  doctorName: doctor?.doctorName ?? "",
+                  imagePath: doctor?.imageUrl ?? "",
+                  isRemoveBtnView: _tabIndex == 0,
+                  onRemoveClick: () {
+                    showSnackbar(context, "Delete Tap");
+                    ApiServiceImpl(Dio())
+                        .removeAppointment(appo?.appoId ?? -1)
+                        .then((value) {
+                      if (value.error == 0) {
+                        showSnackbar(context, "Remove succesfully");
+                        setState(() {});
+                      } else {
+                        showSnackbar(context, "Something went wrong");
+                      }
+                    });
+                  },
+                );
+              },
+            ),
           ),
-        ),
-      ],
+        ],
+      ),
     );
   }
 
