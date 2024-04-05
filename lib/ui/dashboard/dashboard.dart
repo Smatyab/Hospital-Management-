@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:dio/dio.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_screenutil/flutter_screenutil.dart';
@@ -6,10 +7,12 @@ import 'package:hophseeflutter/core/widget/common_label.dart';
 import 'package:hophseeflutter/core/widget/common_label_with_tap.dart';
 import 'package:hophseeflutter/data/datasource/api_services.dart';
 import 'package:hophseeflutter/data/module/doctor_model.dart';
+import 'package:hophseeflutter/ui/chatbot/chat_assistant.dart';
 import 'package:hophseeflutter/ui/dashboard/custom_ad.dart';
 import 'package:hophseeflutter/ui/dashboard/doctor_category_list.dart';
 import 'package:hophseeflutter/ui/dashboard/doctors_list_view.dart';
 import 'package:hophseeflutter/ui/dashboard/location_selection.dart';
+
 import '../doctordetails/doctor_list_screen.dart';
 
 class MyHome extends StatefulWidget {
@@ -174,6 +177,7 @@ class _MyHomeState extends State<MyHome> {
           ),
         ),
       ),
+      floatingActionButton: ChatBotWidget(),
     );
   }
 }

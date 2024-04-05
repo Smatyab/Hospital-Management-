@@ -1,4 +1,5 @@
 import 'package:flutter_neumorphic_plus/flutter_neumorphic.dart';
+import 'package:hophseeflutter/ui/chatbot/chat_assistant.dart';
 import 'package:hophseeflutter/ui/doctorpannel/doctor_dashboard.dart';
 import 'package:hophseeflutter/ui/doctorpannel/doctor_recent_visit.dart';
 
@@ -13,7 +14,6 @@ class DoctorHomeScreen extends StatefulWidget {
 }
 
 class _HomeState extends State<DoctorHomeScreen> {
-
   final List<Widget> screens = [
     DoctorDashboardScreen(),
     DoctorRecentVisitScreen(),
@@ -106,6 +106,7 @@ class _HomeState extends State<DoctorHomeScreen> {
           ),
         ),
       ),
+      floatingActionButton: ChatBotWidget(),
     );
   }
 }
