@@ -46,16 +46,6 @@ Enjoy a clean, responsive UI and robust features for staff, patients, and admini
 
 ---
 
-## 🖼️ Creative UI Snapshots
-
-> (Add images to `assets/` and display them here for a visual preview.)
-
-| Dashboard                    | Appointment Scheduler         | Patient Profile            |
-|------------------------------|------------------------------|----------------------------|
-| ![Dashboard](assets/dashboard-preview.png) | ![Scheduler](assets/appointment-view.png) | ![Profile](assets/patient-profile.png) |
-
----
-
 ## ⚡ Quickstart
 
 1. **Clone the repo**
@@ -96,19 +86,25 @@ lib/
 
 ---
 
-## 🤝 Contribution
 
-Pull requests and feedback welcome!  
-1. Fork the repo  
-2. Create your feature branch  
-3. Commit and push  
-4. Open a PR
+## 🔒 Terms & Privacy
+
+- All data is handled securely and in accordance with our [Privacy Policy](https://Smatyab.github.io/policy/).
+- By using Living Link, you agree to abide by the platform's terms and conditions.
+
+---
+
+## 📝 Contributing
+
+We welcome contributions!  
+If you have suggestions or want to add features, feel free to open an issue or submit a pull request.
 
 ---
 
 ## 👤 Author
 
 - [Smatyab](https://github.com/Smatyab)
+- [lathiyaparth](https://github.com/lathiyaparth)
 
 ---
 
