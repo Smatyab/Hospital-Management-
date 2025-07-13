@@ -1,7 +1,8 @@
 //const host = "https://crowded-galoshes-elk.cyclic.app";
-const host = "https://node-hophsee.onrender.com";
+//const host = "https://node-hophsee.onrender.com";
+//const host = "https://hophsee-backend.onrender.com";
 
-//const host = "http://192.168.223.179:8000";
+const host = "http://192.168.87.179:8000";
 
 const userEp = "$host/users";
 const loginUserEp = "$userEp/login";

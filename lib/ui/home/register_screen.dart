@@ -45,207 +45,211 @@ class _RegisterScreenState extends State<RegisterScreen> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      body: Container(
-        decoration: BoxDecoration(
-          gradient: LinearGradient(
-            begin: Alignment.topLeft,
-            end: Alignment.bottomRight,
-            colors: [
-              /*Color(0xFF74ebd5),
-              Color(0xFFACB6E5),*/
-              Colors.blueGrey.shade400,
-              Colors.white60,
-              Colors.white60,
-              Colors.blueGrey.shade400,
-            ],
+      body: SingleChildScrollView(
+        child: Container(
+          decoration: BoxDecoration(
+            gradient: LinearGradient(
+              begin: Alignment.topLeft,
+              end: Alignment.bottomRight,
+              colors: [
+                /*Color(0xFF74ebd5),
+                Color(0xFFACB6E5),*/
+                Colors.blueGrey.shade400,
+                Colors.white60,
+                Colors.white60,
+                Colors.blueGrey.shade400,
+              ],
+            ),
           ),
-        ),
-        child: Padding(
-          padding: EdgeInsets.only(
-            top: MediaQuery.of(context).size.height * 0.1,
-          ),
-          child: Container(
-            padding: EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 75),
-            child: Neumorphic(
-              style: NeumorphicStyle(
-                shape: NeumorphicShape.flat,
-                boxShape: NeumorphicBoxShape.roundRect(
-                  BorderRadius.circular(25),
+          child: Padding(
+            padding: EdgeInsets.only(
+              top: MediaQuery.of(context).size.height * 0.1,
+            ),
+            child: Container(
+              padding:
+                  EdgeInsets.only(left: 15, right: 15, top: 15, bottom: 75),
+              child: Neumorphic(
+                style: NeumorphicStyle(
+                  shape: NeumorphicShape.flat,
+                  boxShape: NeumorphicBoxShape.roundRect(
+                    BorderRadius.circular(25),
+                  ),
+                  depth: 8,
+                  lightSource: LightSource.topLeft,
+                  color: Colors.transparent,
+                  intensity: 0.7,
                 ),
-                depth: 8,
-                lightSource: LightSource.topLeft,
-                color: Colors.transparent,
-                intensity: 0.7,
-              ),
-              child: Container(
-                decoration: BoxDecoration(
-                  gradient: LinearGradient(
-                    begin: Alignment.topLeft,
-                    end: Alignment.bottomRight,
-                    colors: [
-                      Colors.white70,
-                      Colors.blueGrey.shade100,
-                      Colors.white70,
+                child: Container(
+                  decoration: BoxDecoration(
+                    gradient: LinearGradient(
+                      begin: Alignment.topLeft,
+                      end: Alignment.bottomRight,
+                      colors: [
+                        Colors.white70,
+                        Colors.blueGrey.shade100,
+                        Colors.white70,
+                      ],
+                    ),
+                  ),
+                  padding:
+                      EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
+                  child: Column(
+                    mainAxisAlignment: MainAxisAlignment.start,
+                    children: <Widget>[
+                      ProfileImagePicker(),
+                      const SizedBox(height: 20),
+                      TextFieldDesign(
+                        hintText: 'Full Name',
+                        labelText: 'Full Name',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your full Name';
+                          }
+                          return null; // Return null if the input is valid
+                        },
+                        controller: firstNameController,
+                        prefixIcon: const Icon(
+                          Icons.person,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      TextFieldDesign(
+                        hintText: 'Email',
+                        labelText: 'Email',
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your email';
+                          } else if (!value.isValidEmail) {
+                            return 'Enter with valid email';
+                          }
+                          return null; // Return null if the input is valid
+                        },
+                        controller: emailController,
+                        prefixIcon: const Icon(
+                          Icons.email,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      TextFieldDesign(
+                        hintText: 'Mobile Number',
+                        labelText: 'Mobile Number',
+                        controller: mobileController,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your mobile number';
+                          }
+                          return null; // Return null if the input is valid
+                        },
+                        prefixIcon: const Icon(
+                          Icons.phone,
+                          color: Colors.grey,
+                        ),
+                      ),
+                      const SizedBox(height: 5),
+                      CustomDatePicker(
+                        onClick: () {
+                          hideKeyboard(context);
+                          pickDateDialog();
+                        },
+                        selectedDate: _selectedDate,
+                        onDateSelected:
+                            (DateTime) {}, // Pass the selected date here
+                      ),
+                      const SizedBox(height: 5),
+                      TextFieldDesign(
+                        hintText: 'Password',
+                        labelText: 'Password',
+                        isObscure: true,
+                        showPasswordIcon: true,
+                        validator: (value) {
+                          if (value == null || value.isEmpty) {
+                            return 'Please enter your password';
+                          }
+                          return null; // Return null if the input is valid
+                        },
+                        controller: passwordController,
+                        prefixIcon: const Icon(
+                          Icons.password_sharp,
+                          color: Colors.black87,
+                        ),
+                      ),
+                      const SizedBox(
+                        height: 5,
+                      ),
+                      GenderDropdownTextField(),
+                      const SizedBox(
+                        height: 15,
+                      ),
+                      Center(
+                        child: NeumorphicButton(
+                          onPressed: () {
+                            if (imageFile == null) {
+                              showSnackbar(
+                                  context, "Select Your Profile Image");
+                              return;
+                            }
+                            var userName = firstNameController.text;
+                            var email = emailController.text;
+                            var mobile = mobileController.text;
+                            var password = passwordController.text;
+                            var gender = selectedGender;
+                            var dateOfBirth =
+                                DateFormat("yyyy-MM-dd").format(_selectedDate);
+                            var user = User(
+                              userName: userName,
+                              emailId: email,
+                              phoneNo: mobile,
+                              password: password,
+                              gender: gender.substring(0, 1),
+                              dateOfBirth: dateOfBirth,
+                            );
+                            print("user : ${user.toJson()}");
+                            apiService.registerUser(user, imageFile!).then(
+                              (value) {
+                                if (value.error == 0) {
+                                  // Successfully registered, navigate to login screen
+                                  Navigator.pushReplacementNamed(
+                                    context,
+                                    LoginScreen.route,
+                                  );
+                                } else {
+                                  showSnackbar(context, "Something went wrong");
+                                }
+                              },
+                              onError: (error) {
+                                print(error);
+                                showSnackbar(context, "Something went wrong");
+                              },
+                            );
+                          },
+                          style: NeumorphicStyle(
+                            color: Colors.lightBlueAccent.shade200,
+                            shape: NeumorphicShape.convex,
+                            boxShape: NeumorphicBoxShape.roundRect(
+                              BorderRadius.circular(25),
+                            ),
+                            depth: 8,
+                            intensity: 0.7,
+                            //color: Colors.blueAccent[200],
+                          ),
+                          child: Container(
+                            padding: EdgeInsets.symmetric(
+                              vertical: 1.h,
+                              horizontal: 20.w,
+                            ),
+                            child: Text(
+                              'Register',
+                              style: TextStyle(
+                                  fontSize: 18.sp, color: Colors.black),
+                            ),
+                          ),
+                        ),
+                      ),
+                      const SizedBox(height: 20),
                     ],
                   ),
-                ),
-                padding:
-                    EdgeInsets.only(left: 15, right: 15, top: 10, bottom: 10),
-                child: Column(
-                  mainAxisAlignment: MainAxisAlignment.start,
-                  children: <Widget>[
-                    ProfileImagePicker(),
-                    const SizedBox(height: 20),
-                    TextFieldDesign(
-                      hintText: 'Full Name',
-                      labelText: 'Full Name',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your full Name';
-                        }
-                        return null; // Return null if the input is valid
-                      },
-                      controller: firstNameController,
-                      prefixIcon: const Icon(
-                        Icons.person,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    TextFieldDesign(
-                      hintText: 'Email',
-                      labelText: 'Email',
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your email';
-                        } else if (!value.isValidEmail) {
-                          return 'Enter with valid email';
-                        }
-                        return null; // Return null if the input is valid
-                      },
-                      controller: emailController,
-                      prefixIcon: const Icon(
-                        Icons.email,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    TextFieldDesign(
-                      hintText: 'Mobile Number',
-                      labelText: 'Mobile Number',
-                      controller: mobileController,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your mobile number';
-                        }
-                        return null; // Return null if the input is valid
-                      },
-                      prefixIcon: const Icon(
-                        Icons.phone,
-                        color: Colors.grey,
-                      ),
-                    ),
-                    const SizedBox(height: 5),
-                    CustomDatePicker(
-                      onClick: () {
-                        hideKeyboard(context);
-                        pickDateDialog();
-                      },
-                      selectedDate: _selectedDate,
-                      onDateSelected:
-                          (DateTime) {}, // Pass the selected date here
-                    ),
-                    const SizedBox(height: 5),
-                    TextFieldDesign(
-                      hintText: 'Password',
-                      labelText: 'Password',
-                      isObscure: true,
-                      showPasswordIcon: true,
-                      validator: (value) {
-                        if (value == null || value.isEmpty) {
-                          return 'Please enter your password';
-                        }
-                        return null; // Return null if the input is valid
-                      },
-                      controller: passwordController,
-                      prefixIcon: const Icon(
-                        Icons.password_sharp,
-                        color: Colors.black87,
-                      ),
-                    ),
-                    const SizedBox(
-                      height: 5,
-                    ),
-                    GenderDropdownTextField(),
-                    const SizedBox(
-                      height: 15,
-                    ),
-                    Center(
-                      child: NeumorphicButton(
-                        onPressed: () {
-                          if (imageFile == null) {
-                            showSnackbar(context, "Select Your Profile Image");
-                            return;
-                          }
-                          var userName = firstNameController.text;
-                          var email = emailController.text;
-                          var mobile = mobileController.text;
-                          var password = passwordController.text;
-                          var gender = selectedGender;
-                          var dateOfBirth =
-                              DateFormat("yyyy-MM-dd").format(_selectedDate);
-                          var user = User(
-                            userName: userName,
-                            emailId: email,
-                            phoneNo: mobile,
-                            password: password,
-                            gender: gender.substring(0, 1),
-                            dateOfBirth: dateOfBirth,
-                          );
-                          print("user : ${user.toJson()}");
-                          apiService.registerUser(user, imageFile!).then(
-                            (value) {
-                              if (value.error == 0) {
-                                // Successfully registered, navigate to login screen
-                                Navigator.pushReplacementNamed(
-                                  context,
-                                  LoginScreen.route,
-                                );
-                              } else {
-                                showSnackbar(context, "Something went wrong");
-                              }
-                            },
-                            onError: (error) {
-                              print(error);
-                              showSnackbar(context, "Something went wrong");
-                            },
-                          );
-                        },
-                        style: NeumorphicStyle(
-                          color: Colors.lightBlueAccent.shade200,
-                          shape: NeumorphicShape.convex,
-                          boxShape: NeumorphicBoxShape.roundRect(
-                            BorderRadius.circular(25),
-                          ),
-                          depth: 8,
-                          intensity: 0.7,
-                          //color: Colors.blueAccent[200],
-                        ),
-                        child: Container(
-                          padding: EdgeInsets.symmetric(
-                            vertical: 1.h,
-                            horizontal: 20.w,
-                          ),
-                          child: Text(
-                            'Register',
-                            style:
-                                TextStyle(fontSize: 18.sp, color: Colors.black),
-                          ),
-                        ),
-                      ),
-                    ),
-                    const SizedBox(height: 20),
-                  ],
                 ),
               ),
             ),

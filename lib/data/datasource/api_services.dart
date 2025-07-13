@@ -20,7 +20,7 @@ abstract class ApiService {
 
   Future<DoctorLogin> loginDoctor(String email, String password);
 
-  Future<ResponseQuery> registerUser(User user, File file);
+  Future<ResultModel> registerUser(User user, File file);
 
   Future<DoctorList> getDoctorList();
 
@@ -98,7 +98,7 @@ class ApiServiceImpl extends ApiService {
   }
 
   @override
-  Future<ResponseQuery> registerUser(User user, File file) async {
+  Future<ResultModel> registerUser(User user, File file) async {
     try {
       String fileName = file.path.split('/').last;
       print("File Path ${file.path} file name : $fileName");
@@ -132,12 +132,12 @@ class ApiServiceImpl extends ApiService {
           },
         ),
       );
-      ResponseQuery registerUserResponse =
-          ResponseQuery.fromJson(response.data);
+      print(response.data);
+      ResultModel registerUserResponse = ResultModel.fromJson(response.data);
       print("Api Response login : ${registerUserResponse.toString()}");
       return registerUserResponse;
     } on Exception catch (error) {
-      return ResponseQuery.fromJson(getErrorMap("Http Error"));
+      return ResultModel.fromJson(getErrorMap("Http Error"));
     }
   }
 
